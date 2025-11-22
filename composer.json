@@ -8,13 +8,14 @@
         "Travelx24\\ChattingPackage\\": "src/"
     }
   },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "travelx24 \\SupportChat\\SupportChatServiceProvider"
-      ]
-    }
-  },
+"extra": {
+  "laravel": {
+    "providers": [
+      "Travelx24\\ChattingPackage\\SupportChatServiceProvider"
+    ]
+  }
+},
+
 "require": {
   "php": ">=8.1",
   "illuminate/support": "^10.0|^11.0|^12.0"
