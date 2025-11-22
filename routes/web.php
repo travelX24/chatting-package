@@ -39,10 +39,10 @@ Route::middleware(['auth', 'verified', EnsureBusinessUser::class])->group(functi
  *  GET  /superadmin/conversations/counters-map                   → countersMap
  *  GET  /superadmin/conversations/{business}/user/{user}/stream  → stream
  */
-Route::middleware(['auth', 'sa'])
-    ->prefix('admin')
-    ->name('admin.')
-    ->group(function () {
+// Route::middleware(['auth', 'sa'])
+//     ->prefix('admin')
+//     ->name('admin.')
+//     ->group(function () {
         Route::get('/conversations', [SupportInboxController::class, 'index'])
             ->name('conversations');
 
@@ -73,4 +73,4 @@ Route::middleware(['auth', 'sa'])
             '/conversations/{business}/user/{user}/stream',
             [SupportInboxController::class, 'stream']
         )->name('conversations.stream');
-    });
+    // });
