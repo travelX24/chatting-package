@@ -36,8 +36,9 @@
       {{-- Single conversation card --}}
       <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
         {{-- Click → Business users list (collapsible cards) --}}
-        <a href="{{ route('admin.conversations.show', $row->business->id) }}"
-           class="flex items-center justify-between gap-4">
+<a href="{{ route('conversations.show', $row->business->id) }}"
+   class="flex items-center justify-between gap-4">
+
           <div class="flex items-center gap-4 min-w-0">
             {{-- Business avatar (logo or initials) --}}
             @php
@@ -124,7 +125,8 @@
   async function refreshBizBadges(){
     try{
       const r = await fetch(
-        @json(route('admin.conversations.counters_map')),
+        @json(route('conversations.counters_map')
+),
         { headers:{ 'Accept':'application/json' } }
       );
       const j = await r.json();
