@@ -2,12 +2,12 @@
 
 namespace Travelx24\ChattingPackage\Http\Controllers\Admin;
 
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Travelx24\ChattingPackage\Models\SupportMessage;
-use App\Models\Business;
+use App\Models\User;
+use App\Models\ServiceProviderProfile;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 /**
  * SupportInboxController (Super Admin side)
@@ -34,13 +34,23 @@ class SupportInboxController extends Controller
             ->get();
 
         // Hydrate simple DTOs for the blade view
-        $items = $rows->map(function ($r) {
-            return (object) [
-                'business' => Business::find($r->business_id),
-                'last'     => SupportMessage::find($r->last_id),
-                'unread'   => (int) $r->unread,
-            ];
-        });
+$items = $rows->map(function ($r) {
+    // هنا business_id = user_id كما قلت
+    $user = User::find($r->business_id);
+
+    // بروفايل الوكالة المرتبط بهذا اليوزر
+    $profile = $user
+        ? ServiceProviderProfile::where('user_id', $user->id)->first()
+        : null;
+
+    return (object) [
+        'business' => $profile,                         // بيانات الوكالة (company_name…)
+        'user'     => $user,                            // اليوزر نفسه (name, email…)
+        'last'     => SupportMessage::find($r->last_id),
+        'unread'   => (int) $r->unread,
+    ];
+});
+
 
         // If a query is provided, filter by business name/slug (case-insensitive)
         if ($q !== '') {

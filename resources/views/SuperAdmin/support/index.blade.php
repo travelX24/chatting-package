@@ -74,9 +74,10 @@
             {{-- Title + last message preview --}}
             <div class="min-w-0">
               {{-- Business name (fallback to ID if name is missing) --}}
-              <div class="font-semibold text-gray-900">
-                {{ $row->business->name ?? ('Business #'.$row->business->id) }}
-              </div>
+           <div class="font-semibold text-gray-900">
+                {{ $row->business->company_name
+                    ?? ($row->user->name ?? ('User #'.$row->user->id)) }}
+            </div>
 
               {{-- Last message preview (auto-updated by polling) --}}
               <div
