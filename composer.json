@@ -1,0 +1,24 @@
+{
+  "name": "tabour/laravel-support-chat",
+  "description": "Reusable Laravel support chat between Business users and Super Admin (inbox + business-side chat).",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Tabour\\SupportChat\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Tabour\\SupportChat\\SupportChatServiceProvider"
+      ]
+    }
+  },
+  "require": {
+    "php": "^8.1",
+    "illuminate/support": "^10.0|^11.0|^12.0",
+    "illuminate/routing": "^10.0|^11.0|^12.0",
+    "illuminate/view": "^10.0|^11.0|^12.0"
+  }
+}
