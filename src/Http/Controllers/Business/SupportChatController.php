@@ -55,7 +55,7 @@ class SupportChatController extends Controller
             ->get();
 
         // Get a Super Admin (first by id) for contact info card in the UI
-        $admin = User::where('is_superadmin', 1)->orderBy('id')->first();
+        $admin = User::where('role', 'sa')->orderBy('id')->first();
 
         // نستخدم namespace الواجهات الخاص بالباكج
         return view('support-chat::business.support', compact('messages', 'admin'));
