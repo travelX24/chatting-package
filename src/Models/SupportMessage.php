@@ -1,6 +1,6 @@
 <?php
 
-namespace Tabour\SupportChat\Models;
+namespace Travelx24\SupportChat\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
