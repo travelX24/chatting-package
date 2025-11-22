@@ -1,6 +1,6 @@
 {
-  "name": "tabour/laravel-support-chat",
-  "description": "Reusable Laravel support chat between Business users and Super Admin (inbox + business-side chat).",
+  "name": "travelx24/chatting-package",
+  "description": "Shared support chat (Business ↔ SuperAdmin) for Laravel apps.",
   "type": "library",
   "license": "MIT",
   "autoload": {
@@ -16,9 +16,7 @@
     }
   },
   "require": {
-    "php": "^8.1",
-    "illuminate/support": "^10.0|^11.0|^12.0",
-    "illuminate/routing": "^10.0|^11.0|^12.0",
-    "illuminate/view": "^10.0|^11.0|^12.0"
+    "php": ">=8.1",
+    "illuminate/support": "^10.0|^11.0"
   }
 }
