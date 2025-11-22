@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Tabour\SupportChat\Http\Controllers\Business\SupportChatController;
-use Tabour\SupportChat\Http\Controllers\Admin\SupportInboxController;
+use Travelx24\ChattingPackage\Http\Controllers\Business\SupportChatController;
+use Travelx24\ChattingPackage\Http\Controllers\Admin\SupportInboxController;
 use App\Http\Middleware\EnsureBusinessUser;
 use App\Http\Middleware\SuperAdminMiddleware;
 
@@ -17,7 +17,6 @@ use App\Http\Middleware\SuperAdminMiddleware;
 
 /**
  * Business → Support (لوحة الأعمال)
- * نفس ما عندك في المشروع الأصلي:
  *  GET  /business/support        → عرض المحادثة
  *  POST /business/support        → إرسال رسالة جديدة
  */
@@ -31,15 +30,14 @@ Route::middleware(['auth', 'verified', EnsureBusinessUser::class])->group(functi
 
 /**
  * SuperAdmin → Conversations (Inbox)
- * نفس الراوتات الأصلية:
  *
- *  GET  /superadmin/conversations                       → index
- *  GET  /superadmin/conversations/{business}            → users
- *  POST /superadmin/conversations/{business}/user/{user}/reply  → replyToUser
- *  POST /superadmin/conversations/{business}/user/{user}/ack    → ackUser
- *  GET  /superadmin/conversations/counters              → counters
- *  GET  /superadmin/conversations/counters-map          → countersMap
- *  GET  /superadmin/conversations/{business}/user/{user}/stream → stream
+ *  GET  /superadmin/conversations                                → index
+ *  GET  /superadmin/conversations/{business}                     → users
+ *  POST /superadmin/conversations/{business}/user/{user}/reply   → replyToUser
+ *  POST /superadmin/conversations/{business}/user/{user}/ack     → ackUser
+ *  GET  /superadmin/conversations/counters                       → counters
+ *  GET  /superadmin/conversations/counters-map                   → countersMap
+ *  GET  /superadmin/conversations/{business}/user/{user}/stream  → stream
  */
 Route::middleware(['auth', SuperAdminMiddleware::class])
     ->prefix('superadmin')
