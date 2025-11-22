@@ -3,8 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Travelx24\ChattingPackage\Http\Controllers\Business\SupportChatController;
 use Travelx24\ChattingPackage\Http\Controllers\Admin\SupportInboxController;
-use App\Http\Middleware\EnsureBusinessUser;
-use App\Http\Middleware\SuperAdminMiddleware;
+\use App\Http\Middleware\SuperAdminMiddleware;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +19,8 @@ use App\Http\Middleware\SuperAdminMiddleware;
  *  GET  /business/support        → عرض المحادثة
  *  POST /business/support        → إرسال رسالة جديدة
  */
-Route::middleware(['auth', 'verified', EnsureBusinessUser::class])->group(function () {
-    Route::get('/business/support', [SupportChatController::class, 'index'])
+Route::middleware(['auth', 'verified', 'sp'])->group(function () {
+        Route::get('/business/support', [SupportChatController::class, 'index'])
         ->name('business.support');
 
     Route::post('/business/support', [SupportChatController::class, 'store'])
