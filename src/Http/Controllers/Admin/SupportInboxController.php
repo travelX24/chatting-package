@@ -68,10 +68,20 @@ $items = $rows->map(function ($r) {
     /**
      * GET /superadmin/conversations/{business}
      */
-    public function users(Business $business)
-    {
-        // Group by sender_id for business messages within this business
-        $userRows = SupportMessage::where('business_id', $business->id)
+/**
+ * GET /superadmin/conversations/{business}
+ */
+public function users(int $businessId)
+{
+    // في مشروعك: business_id = رقم الـ User
+    $businessUser = User::findOrFail($businessId);
+
+    // لو حاب تربط ببروفايل الوكالة
+    $business = \App\Models\ServiceProviderProfile::where('user_id', $businessUser->id)->first();
+
+    // Group by sender_id for business messages within this business
+    $userRows = SupportMessage::where('business_id', $businessUser->id)
+
             ->where('sender_role', 'business')
             ->select(
                 'sender_id',
@@ -82,12 +92,11 @@ $items = $rows->map(function ($r) {
             ->orderByDesc('last_id')
             ->get();
 
-        // Build data per user: profile, last msg, unread count, and thread
-        $items = $userRows->map(function ($r) use ($business) {
-            $user = User::find($r->sender_id);
+$items = $userRows->map(function ($r) use ($businessUser) {
+    $user = User::find($r->sender_id);
 
-            // Thread = all business messages from that user + admin replies to that user
-            $thread = SupportMessage::where('business_id', $business->id)
+    $thread = SupportMessage::where('business_id', $businessUser->id)
+
                 ->where(function ($q) use ($r) {
                     // (A) From business side: specific sender_id
                     $q->where(function ($q2) use ($r) {
@@ -117,14 +126,15 @@ $items = $rows->map(function ($r) {
     /**
      * POST /superadmin/conversations/{business}/user/{user}/ack
      */
-    public function ackUser(Business $business, User $user)
-    {
-        // Mark unread messages from this user as read now
-        SupportMessage::where('business_id', $business->id)
-            ->where('sender_role', 'business')
-            ->where('sender_id', $user->id)
-            ->whereNull('read_by_admin_at')
-            ->update(['read_by_admin_at' => now()]);
+public function ackUser(int $businessId, User $user)
+{
+    // Mark unread messages from this user as read now
+    SupportMessage::where('business_id', $businessId)
+        ->where('sender_role', 'business')
+        ->where('sender_id', $user->id)
+        ->whereNull('read_by_admin_at')
+        ->update(['read_by_admin_at' => now()]);
+
 
         // Compute global unread (for sidebar counters, etc.)
         $total = SupportMessage::where('sender_role', 'business')
@@ -137,17 +147,18 @@ $items = $rows->map(function ($r) {
     /**
      * POST /superadmin/conversations/{business}/user/{user}/reply
      */
-    public function replyToUser(Request $r, Business $business, User $user)
-    {
-        $r->validate(['body' => 'required|string|min:1']);
+public function replyToUser(Request $r, int $businessId, User $user)
+{
+    $r->validate(['body' => 'required|string|min:1']);
 
-        $msg = SupportMessage::create([
-            'business_id'     => $business->id,
-            'sender_role'     => 'admin',
-            'sender_id'       => $r->user()->id,
-            'context_user_id' => $user->id,
-            'body'            => trim($r->body),
-        ]);
+    $msg = SupportMessage::create([
+        'business_id'     => $businessId,
+        'sender_role'     => 'admin',
+        'sender_id'       => $r->user()->id,
+        'context_user_id' => $user->id,
+        'body'            => trim($r->body),
+    ]);
+
 
         // AJAX response (no full reload)
         if ($r->expectsJson()) {
@@ -232,27 +243,27 @@ $items = $rows->map(function ($r) {
     /**
      * GET /superadmin/conversations/{business}/user/{user}/stream?after=<id>
      */
-    public function stream(Request $r, Business $business, User $user)
-    {
-        $after = (int) $r->query('after', 0);
+public function stream(Request $r, int $businessId, User $user)
+{
+    $after = (int) $r->query('after', 0);
 
-        // Fetch messages in this business/user context; optionally filter by id > after
-        $messages = SupportMessage::where('business_id', $business->id)
-            ->where(function ($q) use ($user) {
+    // Fetch messages in this business/user context; optionally filter by id > after
+    $messages = SupportMessage::where('business_id', $businessId)
+        ->where(function ($q) use ($user) {
                 $q->where(fn ($q2) => $q2->where('sender_role', 'business')->where('sender_id', $user->id))
                   ->orWhere(fn ($q3) => $q3->where('sender_role', 'admin')->where('context_user_id', $user->id));
             })
-            ->when($after > 0, fn ($q) => $q->where('id', '>', $after))
-            ->orderBy('id')
-            ->get(['id', 'sender_role', 'body', 'created_at']);
+    
+        ->when($after > 0, fn ($q) => $q->where('id', '>', $after))
+        ->orderBy('id')
+        ->get(['id', 'sender_role', 'body', 'created_at']);
 
-        // Unread counters
-        $userUnread = SupportMessage::where('business_id', $business->id)
-            ->where('sender_role', 'business')
-            ->where('sender_id', $user->id)
-            ->whereNull('read_by_admin_at')
-            ->count();
-
+    // Unread counters
+    $userUnread = SupportMessage::where('business_id', $businessId)
+        ->where('sender_role', 'business')
+        ->where('sender_id', $user->id)
+        ->whereNull('read_by_admin_at')
+        ->count();
         $totalUnread = SupportMessage::where('sender_role', 'business')
             ->where('sender_role', 'business')
             ->whereNull('read_by_admin_at')
