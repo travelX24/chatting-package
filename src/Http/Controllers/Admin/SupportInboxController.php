@@ -120,7 +120,11 @@ $items = $userRows->map(function ($r) use ($businessUser) {
             ];
         });
 
-        return view('support-chat::SuperAdmin.support.users', compact('business', 'items'));
+return view('support-chat::SuperAdmin.support.users', [
+    'business'   => $business,
+    'businessId' => $businessId,   // رقم اليوزر صاحب المحادثة
+    'items'      => $items,
+]);
     }
 
     /**

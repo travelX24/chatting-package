@@ -4,7 +4,7 @@
 <div class="p-4 sm:p-6 max-w-5xl mx-auto space-y-4">
   <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-3 mb-6">
     <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 break-words">
-      @tr('Conversation —') {{ $business->name ?? ('#'.$business->id) }}
+      @tr('Conversation —') {{ optional($business)->company_name ?? ('#'.$businessId) }}
     </h1>
     <a href="{{ route('admin.conversations') }}"
       class="inline-flex items-center gap-1 text-blue-600 hover:underline w-full sm:w-auto">
@@ -22,7 +22,7 @@
           type="button"
           class="w-full flex flex-wrap items-center justify-between gap-3 p-4 sm:p-6 hover:bg-gray-50"
           data-user-id="{{ $it->user?->id }}"
-          data-ack-url="{{ route('admin.conversations.ack_user', [$business->id, $it->user?->id]) }}"
+          data-ack-url="{{ route('admin.conversations.ack_user', [$businessId, $it->user?->id]) }}"
           onclick="toggleAndAck(this)"
           aria-expanded="false"
         >
@@ -86,7 +86,7 @@
           {{-- Stream container (poll target) --}}
           <div id="chatStream-{{ $it->user?->id }}"
                data-last-id="{{ $lastId }}"
-               data-stream-url="{{ route('admin.conversations.stream', [$business->id, $it->user?->id]) }}"
+               data-stream-url="{{ route('admin.conversations.stream', [$businessId, $it->user?->id]) }}"
                class="flex-1 overflow-y-auto space-y-3 max-h-[60vh] pb-4"
                style="scroll-behavior:smooth;">
             @foreach($it->messages as $m)
@@ -109,7 +109,7 @@
 
           {{-- Reply form (admin → this user) --}}
           <form method="post"
-                action="{{ route('admin.conversations.reply_user', [$business->id, $it->user?->id]) }}"
+                action="{{ route('admin.conversations.reply_user', [$businessId, $it->user?->id]) }}"
                 class="mt-3 flex flex-col sm:flex-row gap-2 reply-form"
                 data-user-id="{{ $it->user?->id }}">
             @csrf
