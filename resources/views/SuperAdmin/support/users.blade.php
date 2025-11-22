@@ -6,7 +6,7 @@
     <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 break-words">
       @tr('Conversation —') {{ optional($business)->company_name ?? ('#'.$businessId) }}
     </h1>
-    <a href="{{ route('admin.conversations') }}"
+    <a href="{{ route('conversations') }}"
       class="inline-flex items-center gap-1 text-blue-600 hover:underline w-full sm:w-auto">
       <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.78 4.22a.75.75 0 010 1.06L8.56 9.5H16a.75.75 0 010 1.5H8.56l4.22 4.22a.75.75 0 11-1.06 1.06l-5.5-5.5a.75.75 0 010-1.06l5.5-5.5a.75.75 0 011.06 0z" clip-rule="evenodd"/></svg>
       <span>@tr('Back to Conversations')</span>
@@ -22,7 +22,7 @@
           type="button"
           class="w-full flex flex-wrap items-center justify-between gap-3 p-4 sm:p-6 hover:bg-gray-50"
           data-user-id="{{ $it->user?->id }}"
-          data-ack-url="{{ route('admin.conversations.ack_user', [$businessId, $it->user?->id]) }}"
+          data-ack-url="{{ route('conversations.ack_user', [$businessId, $it->user?->id]) }}"
           onclick="toggleAndAck(this)"
           aria-expanded="false"
         >
@@ -86,7 +86,7 @@
           {{-- Stream container (poll target) --}}
           <div id="chatStream-{{ $it->user?->id }}"
                data-last-id="{{ $lastId }}"
-               data-stream-url="{{ route('admin.conversations.stream', [$businessId, $it->user?->id]) }}"
+               data-stream-url="{{ route('conversations.stream', [$businessId, $it->user?->id]) }}"
                class="flex-1 overflow-y-auto space-y-3 max-h-[60vh] pb-4"
                style="scroll-behavior:smooth;">
             @foreach($it->messages as $m)
@@ -109,7 +109,7 @@
 
           {{-- Reply form (admin → this user) --}}
           <form method="post"
-                action="{{ route('admin.conversations.reply_user', [$businessId, $it->user?->id]) }}"
+                action="{{ route('conversations.reply_user', [$businessId, $it->user?->id]) }}"
                 class="mt-3 flex flex-col sm:flex-row gap-2 reply-form"
                 data-user-id="{{ $it->user?->id }}">
             @csrf
@@ -242,7 +242,7 @@ async function toggleAndAck(btn){
 setInterval(async () => {
   // 1) Global sidebar counter
   try{
-    const j = await fetchJSON(@json(route('admin.conversations.counters')));
+    const j = await fetchJSON(@json(route('conversations.counters')));
     if ('total_unread' in j) updateSidebarBadge(j.total_unread);
   }catch(_){}
 
