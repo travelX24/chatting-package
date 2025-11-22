@@ -1,8 +1,8 @@
 <?php
 
-namespace Travelx24\SupportChat\Http\Controllers\Business;
+namespace Travelx24\ChattingPackage\Http\Controllers\Business;
+use Illuminate\Routing\Controller;
 
-use App\Http\Controllers\Controller;
 use Tabour\SupportChat\Models\SupportMessage;
 use App\Models\User;
 use Illuminate\Http\Request;
