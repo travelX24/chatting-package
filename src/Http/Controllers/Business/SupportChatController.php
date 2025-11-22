@@ -1,9 +1,10 @@
 <?php
 
+
 namespace Travelx24\ChattingPackage\Http\Controllers\Business;
 use Illuminate\Routing\Controller;
 
-use Tabour\SupportChat\Models\SupportMessage;
+use Travelx24\ChattingPackage\Models\SupportMessage;
 use App\Models\User;
 use Illuminate\Http\Request;
 

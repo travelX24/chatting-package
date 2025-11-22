@@ -2,12 +2,12 @@
 
 namespace Travelx24\ChattingPackage\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Tabour\SupportChat\Models\SupportMessage;
-use App\Models\Business;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Travelx24\ChattingPackage\Models\SupportMessage;
+use App\Models\Business;
 
 /**
  * SupportInboxController (Super Admin side)
