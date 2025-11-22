@@ -5,13 +5,13 @@
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "Tabour\\SupportChat\\": "src/"
+        "Travelx24\\ChattingPackage\\": "src/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "Tabour\\SupportChat\\SupportChatServiceProvider"
+        "travelx24 \\SupportChat\\SupportChatServiceProvider"
       ]
     }
   },

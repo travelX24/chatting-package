@@ -1,6 +1,6 @@
 <?php
 
-namespace Tabour\SupportChat\Http\Controllers\Admin;
+namespace Travelx24\ChattingPackage\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Tabour\SupportChat\Models\SupportMessage;
