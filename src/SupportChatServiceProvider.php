@@ -1,6 +1,6 @@
 <?php
 
-namespace Tabour\SupportChat;
+namespace Travelx24\ChattingPackage;
 
 use Illuminate\Support\ServiceProvider;
 
