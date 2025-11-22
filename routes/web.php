@@ -18,13 +18,14 @@ use Travelx24\ChattingPackage\Http\Controllers\Admin\SupportInboxController;
  *  GET  /business/support        → عرض المحادثة
  *  POST /business/support        → إرسال رسالة جديدة
  */
-Route::middleware(['auth', 'verified', 'sp'])->group(function () {
-        Route::get('/business/support', [SupportChatController::class, 'index'])
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/business/support', [SupportChatController::class, 'index'])
         ->name('business.support');
 
     Route::post('/business/support', [SupportChatController::class, 'store'])
         ->name('business.support.store');
 });
+
 
 /**
  * SuperAdmin → Conversations (Inbox)
