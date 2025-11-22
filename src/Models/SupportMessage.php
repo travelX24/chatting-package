@@ -1,6 +1,6 @@
 <?php
 
-namespace Travelx24\SupportChat\Models;
+namespace Travelx24\ChattingPackage\Models;   // <-- عدّل هذه السطر
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -8,7 +8,6 @@ class SupportMessage extends Model
 {
     protected $table = 'support_messages';
 
-    // نفس الأعمدة التي استخدمتها في مشروعك
     protected $fillable = [
         'business_id',
         'sender_role',
@@ -20,7 +19,7 @@ class SupportMessage extends Model
     ];
 
     protected $casts = [
-        'read_by_admin_at'     => 'datetime',
-        'read_by_business_at'  => 'datetime',
+        'read_by_admin_at'    => 'datetime',
+        'read_by_business_at' => 'datetime',
     ];
 }
