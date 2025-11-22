@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use Travelx24\ChattingPackage\Http\Controllers\Business\SupportChatController;
 use Travelx24\ChattingPackage\Http\Controllers\Admin\SupportInboxController;
-\use App\Http\Middleware\SuperAdminMiddleware;
 
 /*
 |--------------------------------------------------------------------------
