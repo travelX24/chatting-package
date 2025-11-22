@@ -27,7 +27,7 @@ class SupportChatController extends Controller
      */
     public function index(Request $r)
     {
-        $bizId  = $r->user()->business_id; // current business
+        $bizId  = $r->user()->business_id ?? $r->user()->id; // لو مافيش business_id خليها id المستخدم
         $userId = $r->user()->id;          // current business-side user
 
         // Mark unread admin→this-user messages as read now (business-side read flag)
@@ -71,7 +71,7 @@ class SupportChatController extends Controller
     {
         $r->validate(['body' => 'required|string|min:1']);
 
-        $bizId = $r->user()->business_id;
+$bizId = $r->user()->business_id ?? $r->user()->id;
 
         $msg = SupportMessage::create([
             'business_id' => $bizId,
